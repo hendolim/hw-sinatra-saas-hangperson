@@ -8,10 +8,45 @@ class HangpersonGame
   # def initialize()
   # end
   
+  attr_accessor :guesses, :wrong_guesses, :word, :word_with_guesses, :try
+  
   def initialize(word)
     @word = word
+    @guesses = ''
+    @wrong_guesses = ''
+    @word_with_guesses = '-' * @word.length
+    @try = 0
   end
-
+  
+  def guess(char)
+    raise ArgumentError,"Please input letters only" unless char =~ /[A-Za-z]/
+    @try+=1
+    if not @guesses.upcase.include? char.upcase and not @wrong_guesses.upcase.include? char.upcase
+      if word.include? char
+        @guesses << char
+        temp = (0..@word.length-1).find_all {|i| @word[i,1]==char}
+        temp.each {|i| @word_with_guesses[i] = char}
+      else
+        @wrong_guesses << char
+      end
+      return true
+    end
+    return false
+  end
+  
+  def check_win_or_lose
+    if @try <7
+      if not word_with_guesses.include? '-'
+        return :win
+      else
+        return :play
+      end
+    else
+      return :lose
+    end
+  end
+    
+  
   def self.get_random_word
     require 'uri'
     require 'net/http'
