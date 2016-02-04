@@ -30,7 +30,7 @@ class HangpersonGame
   end
   
   def check_win_or_lose
-    if @wrong_guesses.length + @guesses.length < 7
+    if @wrong_guesses.length < 7
       if not word_with_guesses.include? '-'
         return :win
       else
