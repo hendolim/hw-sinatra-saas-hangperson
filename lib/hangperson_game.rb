@@ -8,13 +8,12 @@ class HangpersonGame
   # def initialize()
   # end
   
-  attr_accessor :guesses, :wrong_guesses, :word, :word_with_guesses
+  attr_accessor :guesses, :wrong_guesses, :word
   
   def initialize(word)
     @word = word
     @guesses = ''
     @wrong_guesses = ''
-    @word_with_guesses = '-' * @word.length
   end
   
   def guess(char)
@@ -22,8 +21,6 @@ class HangpersonGame
     if not @guesses.upcase.include? char.upcase and not @wrong_guesses.upcase.include? char.upcase
       if word.include? char
         @guesses << char
-        temp = (0..@word.length-1).find_all {|i| @word[i,1]==char}
-        temp.each {|i| @word_with_guesses[i] = char}
       else
         @wrong_guesses << char
       end
@@ -44,6 +41,11 @@ class HangpersonGame
     end
   end
     
+  def word_with_guesses
+    progress = '-'*@word.length
+    temp = (0..@word.length-1).each {|i| progress[i] = @word[i] if guesses.include? @word[i]}
+    return progress
+  end
   
   def self.get_random_word
     require 'uri'
