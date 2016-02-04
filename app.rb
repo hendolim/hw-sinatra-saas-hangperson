@@ -40,7 +40,7 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
-    respond = HangpersonGame.guess letter
+    respond = @game.guess letter
     if respond == ArgumentError
       flash[:message] = "Invalid guess."
     elsif respond == false
@@ -61,8 +61,9 @@ class HangpersonApp < Sinatra::Base
       redirect '/win'
     elsif respond == :lose
       redirect '/lose'
+    else
+      erb :show # You may change/remove this line
     end
-    erb :show # You may change/remove this line
   end
   
   get '/win' do
